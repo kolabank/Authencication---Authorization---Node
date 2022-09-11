@@ -1,0 +1,24 @@
+body {
+    background-color: aqua;
+}
+
+.spaceDiv {
+    height: 20px;
+}
+
+.inputBox {
+    border: 2px solid black;
+    width: 20%;
+    height: 30px;
+    border-radius: 5px;
+}
+
+#mainSection {
+    margin: auto;
+    text-align: center;
+}
+
+#form {
+    margin: auto;
+    width: auto;
+}

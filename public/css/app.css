@@ -1,0 +1,37 @@
+body {
+    background-color: rgb(129, 178, 246);
+}
+
+.spaceDiv {
+    height: 20px;
+}
+
+.inputBox {
+    border: 2px solid black;
+    width: 20%;
+    height: 30px;
+    border-radius: 5px;
+}
+
+#mainSection {
+    margin: auto;
+    text-align: center;
+}
+
+#form {
+    margin: auto;
+    width: auto;
+}
+
+h1 {
+    color: white;
+}
+
+p {
+    color: white;
+}
+
+button {
+    background-color: rgb(1, 54, 132);
+    color: white;
+}
