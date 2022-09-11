@@ -14,24 +14,9 @@ loginRouter.get("/login", (req, res) => {
 
 })
 
-loginRouter.post('/login', async(req, res) => {
-    console.log("Got into the login post route");
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
-    if (!user) {
-        res.send("Login details are not correct");
-    } else {
-        const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-        if (isPasswordMatch) {
-            req.flash("success", `You are now logged in ${user.username}`)
-            res.redirect('/welcome')
-
-        } else {
-            res.send("Login details are not correct");
-
-        }
-    }
+loginRouter.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+    req.flash("success", `You are now logged in ${username}`)
+    res.redirect('/welcome')
 
 })
 

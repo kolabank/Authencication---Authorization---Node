@@ -12,16 +12,27 @@ const res = require("express/lib/response");
 const session = require("express-session");
 const sessionOptions = { secret: 'thisisnotagoodsecret', resave: false, saveUninitialized: false }
 const flash = require('connect-flash');
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }))
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.messages = req.flash('success');
     next();
 })
+
+
 
 app.use("/", loginRouter);
 app.use("/", signupRouter);
