@@ -23,7 +23,6 @@ const userSchema = new mongoose.Schema({
 
 })
 
-userSchema.plugin(passortLocalMongoose);
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

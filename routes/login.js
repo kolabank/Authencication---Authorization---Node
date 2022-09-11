@@ -7,6 +7,7 @@ const passport = require("passport");
 
 
 
+
 loginRouter.get("/login", (req, res) => {
 
     res.render('login');
@@ -16,21 +17,22 @@ loginRouter.get("/login", (req, res) => {
 loginRouter.post('/login', async(req, res) => {
     console.log("Got into the login post route");
     const { username, password } = req.body;
-    const retrievedUser = await User.findOne({ username });
-    if (!retrievedUser) {
+    const user = await User.findOne({ username });
+    if (!user) {
         res.send("Login details are not correct");
     } else {
-        const isPasswordMatch = await bcrypt.compare(password, retrievedUser.password);
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
 
         if (isPasswordMatch) {
-            res.send("You are logged in");
+            req.flash("success", `You are now logged in ${user.username}`)
+            res.redirect('/welcome')
 
         } else {
             res.send("Login details are not correct");
 
         }
     }
-    res.send("You are logged in");
+
 })
 
 module.exports = loginRouter;

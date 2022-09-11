@@ -8,15 +8,23 @@ const bcrypt = require('bcrypt');
 const User = require("./models/user");
 const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
-
+const res = require("express/lib/response");
+const session = require("express-session");
+const sessionOptions = { secret: 'thisisnotagoodsecret', resave: false, saveUninitialized: false }
+const flash = require('connect-flash');
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }))
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.messages = req.flash('success');
+    next();
+})
 
 app.use("/", loginRouter);
 app.use("/", signupRouter);
-
-
 
 mongoose.connect('mongodb://localhost:27017/user', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -28,14 +36,17 @@ mongoose.connect('mongodb://localhost:27017/user', { useNewUrlParser: true, useU
     })
 
 
+
+
 app.get("/", (req, res) => {
     res.redirect('/signup')
+    req.flash('success', "You have now signed up");
 })
 
 
 
 app.get("/welcome", (req, res) => {
-    res.send("You are welcome to get response");
+    res.render('welcome');
 
 })
 
