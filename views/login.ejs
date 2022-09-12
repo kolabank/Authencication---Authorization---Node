@@ -11,22 +11,26 @@
 <body>
 
     <div id="mainSection">
-        <h1>Log in page</h1>
 
-        <div>
-            <form action="/login" method="POST" id="form">
+        <%= success %>
+            <%= error %>
+
+                <h1>Log in page</h1>
+
+                <div>
+                    <form action="/login" method="POST" id="form">
 
 
-                <input class=inputBox type="text" name="username" id="username" placeholder="Username">
-                <div class="spaceDiv"></div>
+                        <input class=inputBox type="text" name="username" id="username" placeholder="Username">
+                        <div class="spaceDiv"></div>
 
-                <input class=inputBox type="password" name="password" id="password" placeholder="Password">
-                <div class="spaceDiv"></div>
+                        <input class=inputBox type="password" name="password" id="password" placeholder="Password">
+                        <div class="spaceDiv"></div>
 
-                <button class=inputBox>Log in</button>
-        </div>
-        </form>
-        <p>Not having an account? <a href="/">Sign up here</a></p>
+                        <button class=inputBox>Log in</button>
+                </div>
+                </form>
+                <p>Not having an account? <a href="/signup">Sign up here</a></p>
 
     </div>
 

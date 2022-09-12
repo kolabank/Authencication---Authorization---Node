@@ -14,7 +14,8 @@ const sessionOptions = { secret: 'thisisnotagoodsecret', resave: false, saveUnin
 const flash = require('connect-flash');
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-
+const { isLoggedin } = require('./middleware')
+console.log(isLoggedin);
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }))
 app.use(session(sessionOptions));
@@ -28,7 +29,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    res.locals.messages = req.flash('success');
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     next();
 })
 
@@ -50,16 +52,28 @@ mongoose.connect('mongodb://localhost:27017/user', { useNewUrlParser: true, useU
 
 
 app.get("/", (req, res) => {
-    res.redirect('/signup')
-    req.flash('success', "You have now signed up");
+    res.redirect('/homepage');
+})
+
+app.get('/homepage', (req, res) => {
+    res.render("homepage");
 })
 
 
 
-app.get("/welcome", (req, res) => {
+app.get("/welcome", isLoggedin, (req, res) => {
     res.render('welcome');
 
 })
+
+
+app.get('/logout', (req, res, next) => {
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        req.flash("success", "You are now logged out");
+        res.redirect('/signup');
+    });
+});
 
 app.listen(3000, () => {
     console.log("App is listening");

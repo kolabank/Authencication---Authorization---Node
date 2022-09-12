@@ -15,9 +15,6 @@ signupRouter.post("/signup", async(req, res) => {
     const userInit = new User({ username, email });
     const user = await User.register(userInit, password);
 
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // const user = new User({ username, email, password: hashedPassword });
-    // await user.save();
     req.flash('success', `You are now signed up ${user.username}`);
     res.redirect('/welcome');
 
