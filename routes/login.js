@@ -1,7 +1,6 @@
 const express = require("express");
 const loginRouter = express.Router();
-const app = express();
-const bcrypt = require('bcrypt');
+
 const User = require("../models/user");
 const passport = require("passport");
 
@@ -18,6 +17,7 @@ loginRouter.post('/login', passport.authenticate('local', { failureFlash: true, 
     const { username, password } = req.body;
     req.flash("success", `You are now logged in ${username}`)
     res.redirect('/welcome')
+
 
 })
 

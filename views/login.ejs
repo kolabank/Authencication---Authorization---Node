@@ -1,21 +1,10 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Authentication</title>
-    <link rel="stylesheet" href="/css/app.css">
-</head>
-
-<body>
+<% layout('layouts/boilerplate')%>
 
     <div id="mainSection">
 
         <%= success %>
+            <p></p>
             <%= error %>
-
-                <h1>Log in page</h1>
 
                 <div>
                     <form action="/login" method="POST" id="form">
@@ -35,9 +24,3 @@
     </div>
 
     </section>
-
-
-
-</body>
-
-</html>

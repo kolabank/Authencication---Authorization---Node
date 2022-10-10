@@ -9,14 +9,20 @@ signupRouter.get("/signup", (req, res) => {
     res.render('index');
 })
 
-signupRouter.post("/signup", async(req, res) => {
-
-    const { username, email, password } = req.body;
-    const userInit = new User({ username, email });
-    const user = await User.register(userInit, password);
-
-    req.flash('success', `You are now signed up ${user.username}`);
-    res.redirect('/welcome');
+signupRouter.post("/signup", async(req, res, next) => {
+    try {
+        const { username, email, password } = req.body;
+        const userInit = new User({ username, email });
+        const user = await User.register(userInit, password);
+        req.login(user, err => {
+            if (err) return next(err);
+            req.flash('success', `You are now signed up ${user.username}`);
+            res.redirect('/welcome');
+        })
+    } catch (e) {
+        req.flash('error', e.message);
+        res.redirect('signup');
+    }
 
 })
 

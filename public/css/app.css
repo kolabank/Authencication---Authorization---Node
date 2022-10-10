@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(129, 178, 246);
+    background-color: rgb(133, 171, 236);
 }
 
 .spaceDiv {
@@ -34,4 +34,8 @@ p {
 button {
     background-color: rgb(1, 54, 132);
     color: white;
+}
+
+#logoutButton {
+    float: right;
 }
