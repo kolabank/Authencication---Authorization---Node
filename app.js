@@ -1,4 +1,5 @@
 const express = require("express");
+const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 const path = require("path");
 const app = express();
@@ -61,6 +62,7 @@ app.get("/", (req, res) => {
 
 app.get('/homepage', (req, res) => {
     res.render("homepage");
+
 })
 
 
@@ -79,6 +81,7 @@ app.get('/logout', (req, res, next) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log("App is listening");
+app.listen(PORT, () => {
+    console.log(`App is listening on port ${PORT}`);
+    console.log(process.env.PORT);
 })
