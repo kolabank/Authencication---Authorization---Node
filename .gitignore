@@ -1,3 +1,5 @@
 *.docx
 
 /node_modules
+
+.env

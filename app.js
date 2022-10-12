@@ -44,7 +44,12 @@ app.use((req, res, next) => {
 app.use("/", loginRouter);
 app.use("/", signupRouter);
 
-mongoose.connect('mongodb://localhost:27017/user', { useNewUrlParser: true, useUnifiedTopology: true })
+const dbUrl = process.env.DB_URL;
+
+mongoose.connect('mongodb://localhost:27017/user', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
     .then(() => {
         console.log("MONGO CONNECTION OPEN!!!")
     })
@@ -84,4 +89,5 @@ app.get('/logout', (req, res, next) => {
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`);
     console.log(process.env.PORT);
+    console.log(dbUrl);
 })
