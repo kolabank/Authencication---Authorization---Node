@@ -1,8 +1,10 @@
 const express = require("express");
-const PORT = process.env.PORT || 3000;
+
+require('dotenv').config();
 const mongoose = require("mongoose");
 const path = require("path");
 const app = express();
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 const bcrypt = require('bcrypt');
@@ -11,13 +13,34 @@ const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
 const res = require("express/lib/response");
 const session = require("express-session");
-const sessionOptions = { secret: 'thisisnotagoodsecret', resave: false, saveUninitialized: false }
+const MongoStore = require("connect-mongo") //(session);
 const flash = require('connect-flash');
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const { isLoggedin } = require('./middleware')
 const ejsmate = require('ejs-mate');
 app.engine('ejs', ejsmate);
+
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/user';
+const PORT = process.env.PORT || 3000;
+
+const secret = process.env.SECRET || 'thisisnotagoodsecret'
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    secret,
+    touchAfter: 24 * 60
+})
+store.on("error", function(e) {
+    console.log("SESSION ERROR")
+})
+
+const sessionOptions = {
+    store,
+    secret,
+    resave: false,
+    saveUninitialized: false
+}
 
 console.log(isLoggedin);
 app.use(express.static('public'));
@@ -44,9 +67,10 @@ app.use((req, res, next) => {
 app.use("/", loginRouter);
 app.use("/", signupRouter);
 
-const dbUrl = process.env.DB_URL;
 
-mongoose.connect('mongodb://localhost:27017/user', {
+
+// 'mongodb://localhost:27017/user'
+mongoose.connect(dbUrl, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -57,7 +81,6 @@ mongoose.connect('mongodb://localhost:27017/user', {
         console.log("MONGO CONNECTION ERROR!!!!")
         console.log(err)
     })
-
 
 
 
@@ -88,6 +111,6 @@ app.get('/logout', (req, res, next) => {
 
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`);
-    console.log(process.env.PORT);
-    console.log(dbUrl);
+
+
 })
