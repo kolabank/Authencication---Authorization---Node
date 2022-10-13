@@ -19,6 +19,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const { isLoggedin } = require('./middleware')
 const ejsmate = require('ejs-mate');
+const { db } = require("./models/user");
 app.engine('ejs', ejsmate);
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/user';
@@ -113,6 +114,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`);
+    console.log(dbUrl);
 
 
 })
