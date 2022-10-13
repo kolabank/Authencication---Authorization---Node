@@ -22,7 +22,7 @@ const ejsmate = require('ejs-mate');
 app.engine('ejs', ejsmate);
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/user';
-const PORT = process.env.PORT || 3000;
+
 
 const secret = process.env.SECRET || 'thisisnotagoodsecret'
 
@@ -108,6 +108,8 @@ app.get('/logout', (req, res, next) => {
         res.redirect('/signup');
     });
 });
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`);
